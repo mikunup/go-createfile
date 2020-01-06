@@ -28,12 +28,12 @@ func main() {
 func run() int {
 	err := initArgs()
 	if err != nil {
-		fmt.Printf("error %v", err)
+		fmt.Fprintf(os.Stderr, "error: initArgs, %s", err)
 		return 1
 	}
 	err = createFiles()
 	if err != nil {
-		fmt.Printf("error %v", err)
+		fmt.Fprintf(os.Stderr, "error: createFiles, %s", err)
 		return 1
 	}
 	return 0
