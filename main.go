@@ -56,7 +56,7 @@ func initArgs() error {
 		}
 	}
 
-	if !fileTermIs() {
+	if !isFileTerm() {
 		return errors.New("term Please choose from one of 'd', 'm', 'y'")
 	}
 
@@ -68,6 +68,7 @@ func initArgs() error {
 	return nil
 }
 
+// createFiles は更新日時を変更しながら、ファイルを作成します
 func createFiles() error {
 	for date := range nextTerms(0, CreateCount) {
 		name := fmt.Sprintf("%s.txt", date.Format(FileNameLayout))
@@ -82,7 +83,7 @@ func createFiles() error {
 	return nil
 }
 
-// nextTermsは次に生成するファイルのtime.Timeを返却する
+// nextTerms は次に生成するファイルのtime.Timeを返却する
 func nextTerms(start int, end int) <-chan time.Time {
 	tt := term.NewTimeTerm(time.Now(), MovingDate)
 	ch := make(chan time.Time)
@@ -95,7 +96,8 @@ func nextTerms(start int, end int) <-chan time.Time {
 	return ch
 }
 
-func fileTermIs() bool {
+// isFileTerm はファイルの更新期間がFileTermsの中に含まれているかを確認する
+func isFileTerm() bool {
 	for _, t := range term.FileTerms {
 		if MovingDate == t {
 			return true
